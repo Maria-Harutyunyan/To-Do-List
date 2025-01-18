@@ -1,0 +1,126 @@
+#root {
+  margin: 0 auto;
+  background-color: var(--background-color);
+  max-width: 1200px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+:root {
+  --background-color: #f9f9f9;
+  --primary-color: #3f51b5;
+  --secondary-color: #ff4081;
+  --text-color: #333;
+  --button-hover: #303f9f;
+  --dark-background: #121212;
+  --dark-text: #e0e0e0;
+}
+
+body[data-theme="dark"] {
+  --background-color: var(--dark-background);
+  --text-color: var(--dark-text);
+}
+
+#header {
+  margin: 15px;
+  color: var(--primary-color);
+  font-weight: bold;
+  text-align: center;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
+  background-color: var(--background-color);
+}
+
+.task-container,
+#search-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.add-task,
+#search {
+  flex: 1;
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  background-color: var(--background-color);
+}
+
+.list {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  margin-bottom: 10px;
+}
+
+.list-item.completed {
+  text-decoration: line-through;
+  color: var(--secondary-color);
+}
+
+.filter-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.filter-buttons button {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: var(--dark-text);
+  border-radius: 5px;
+  font-size: 14px;
+  border: none;
+}
+
+.filter-buttons button:hover {
+  background-color: var(--secondary-color);
+}
+
+.shared-button {
+  padding: 10px 20px;
+  background-color: var(--secondary-color);
+  color: var(--dark-text);
+  border: none;
+}
+
+.shared-button:hover {
+  background-color: var(--secondary-color);
+}
+
+#light {
+  background-color: var(--background-color);
+  color: var(--dark-background);
+}
+
+#dark {
+  background-color: var(--dark-background);
+  color: var(--background-color);
+}
