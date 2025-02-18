@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import Header from "./Header";
 import List from "./exercises/List";
 import { v4 as uuidv4 } from "uuid";
@@ -7,78 +7,53 @@ import "./App.css";
 import React from "react";
 import { Container, Typography } from "@mui/material";
 import Switch from "@mui/material/Switch";
+import { useDispatch, useSelector } from "react-redux";
+import { addToDo, deleteToDo, toggleComplete } from "./assets/redux/toDo";
+import { setSearch, setButtonFilter } from "./assets/redux/filter";
 
-const ThemeContext = createContext(null);
 
 function App() {
-  const [inputValue, setInput] = useState("");
-  const [items, setItems] = useState([
-    { id: uuidv4(), value: "Meet friends", completed: false },
-    { id: uuidv4(), value: "To do shopping", completed: false },
-    { id: uuidv4(), value: "Household chores", completed: false },
-  ]);
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all");
+  const dispatch = useDispatch();
+
+  const items = useSelector((state) => state.toDo.items || []);
+  const search = useSelector((state) => state.filter.search);
+  const filter = useSelector((state) => state.filter.buttonFilter);
   const [theme, setTheme] = useState("light");
 
-  function click(e) {
-    setInput("");
-    setItems((oldState) => [
-      ...oldState,
-      { id: uuidv4(), value: inputValue, completed: false },
-    ]);
-  }
+  const toggleTheme = () => {
+    setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
+  };
 
-  function deleteItems(id) {
-    setItems((currentState) => currentState.filter((item) => item.id !== id));
-  }
-
-  function completedItems(id) {
-    setItems(
-      items.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  }
-  function handleSearch(value) {
-    setSearch(value);
+  function click(inputValue) {
+    if (inputValue) {
+      dispatch(addToDo({ id: uuidv4(), value: inputValue, completed: false }));
+    }
   }
 
   const filteredItems = items
-    .filter((item) => item.value.toLowerCase().includes(search.toLowerCase()))
+    .filter((item) =>
+      item.value.toLowerCase().includes((search || "").toLowerCase())
+    )
     .filter((item) => {
       if (filter === "done") return item.completed;
       if (filter === "pending") return !item.completed;
       return true;
     });
 
-  const toggleTheme = () => {
-    setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
-  };
-
   return (
     <Container id={theme}>
-      <ThemeContext.Provider value={{ theme, toggleTheme }}>
-        <Typography id="header" variant="h2" align="center">
-          To-Do App
-        </Typography>
-        <Switch cheked={theme === "light"} onChange={toggleTheme} />
+      <Typography id="header" variant="h2" align="center">
+        To-Do App
+      </Typography>
+      <Switch checked={theme === "light"} onChange={toggleTheme} />
 
-        <Header
-          inputValue={inputValue}
-          setInput={setInput}
-          setItems={setItems}
-          click={click}
-          handleSearch={handleSearch}
-          name={name}
-        />
-        <List
-          toDos={filteredItems}
-          deleteItems={deleteItems}
-          completedItems={completedItems}
-        />
-        <FilterBtns setFilter={setFilter} />
-      </ThemeContext.Provider>
+      <Header click={click} setSearch={(value) => dispatch(setSearch(value))} />
+      <List
+        toDos={filteredItems}
+        deleteItems={(id) => dispatch(deleteToDo(id))}
+        completedItems={(id) => dispatch(toggleComplete(id))}
+      />
+      <FilterBtns setFilter={(value) => dispatch(setButtonFilter(value))} />
     </Container>
   );
 }

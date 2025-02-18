@@ -1,10 +1,10 @@
 import { TextField, Box } from "@mui/material";
 import SharedButton from "./exercises/SharedButton";
-import { useContext } from "react";
-import { ThemeContext } from "styled-components";
+import { useState } from "react";
 
-function Header({ inputValue, setInput, click, handleSearch }) {
-  const theme = useContext(ThemeContext);
+function Header({ click, setSearch }) {
+  const [input, setInput] = useState("");
+
   return (
     <>
       <Box className="header-container">
@@ -13,12 +13,15 @@ function Header({ inputValue, setInput, click, handleSearch }) {
             className="add-task"
             label="Add a task"
             variant="outlined"
-            value={inputValue}
+            value={input}
             onChange={(e) => setInput(e.target.value)}
           />
           <SharedButton
             id="add"
-            onClick={click}
+            onClick={() => {
+              click(input);
+              setInput("");
+            }}
             name="Add"
             variant="contained"
             color="secondary"
@@ -30,7 +33,7 @@ function Header({ inputValue, setInput, click, handleSearch }) {
             label="search"
             variant="outlined"
             placeholder="Search tasks"
-            onChange={(e) => handleSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </Box>
       </Box>

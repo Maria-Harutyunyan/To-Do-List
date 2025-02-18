@@ -1,10 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import SharedButton from "./SharedButton";
-import { useContext } from "react";
-import { ThemeContext } from "styled-components";
 
 function ListItem({ toDoName, deleteItems, completedItems }) {
-  const theme = useContext(ThemeContext);
   return (
     <Box>
       <Typography

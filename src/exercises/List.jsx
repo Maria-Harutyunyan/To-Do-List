@@ -1,10 +1,7 @@
-import { useContext } from "react";
 import ListItem from "./ListItem";
 import { Box } from "@mui/material";
-import { ThemeContext } from "styled-components";
 
 function List({ toDos, deleteItems, completedItems }) {
-  const theme = useContext(ThemeContext);
   return (
     <Box className="list">
       {toDos.map((item) => (
